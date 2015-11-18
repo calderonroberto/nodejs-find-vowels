@@ -5,26 +5,26 @@ fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
   if (err) {
     return console.log(err);
   }
-  var t,i;
+  var t,i,v;
   for (i=0;i<10;i++) {
     t = process.hrtime();
-    withIf(testString);
+    var v = withIf(testString);
     t = process.hrtime(t);
-    console.log('If           %d', t[0] * 1e9 + t[1]);
+    console.log('%d If           %d', v, t[0] * 1e9 + t[1]);
   }
 
   for (i=0;i<10;i++) {
     t = process.hrtime();
     withIndexOf(testString);
     t = process.hrtime(t);
-    console.log('IndexOf      %d', t[0] * 1e9 + t[1]);
+    console.log('%d indexOf      %d', v, t[0] * 1e9 + t[1]);
   }
 
   for (i=0;i<10;i++) {
     t = process.hrtime();
     withBinarySearch(testString);
     t = process.hrtime(t);
-    console.log('BinarySearch %d', t[0] * 1e9 + t[1]);
+    console.log('%d binarySearch %d', v, t[0] * 1e9 + t[1]);
   }
 
 });
