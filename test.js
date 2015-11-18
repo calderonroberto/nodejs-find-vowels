@@ -1,45 +1,10 @@
 "use scrict";
 
 fs = require('fs')
-fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
-  if (err) {
-    return console.log(err);
-  }
-  var t,i,v;
-  for (i=0;i<10;i++) {
-    t = process.hrtime();
-    var v = withIf(testString);
-    t = process.hrtime(t);
-    console.log('%d If           %d', v, t[0] * 1e9 + t[1]);
-  }
-
-  for (i=0;i<10;i++) {
-    t = process.hrtime();
-    withIndexOf(testString);
-    t = process.hrtime(t);
-    console.log('%d indexOf      %d', v, t[0] * 1e9 + t[1]);
-  }
-
-  for (i=0;i<10;i++) {
-    t = process.hrtime();
-    withBinarySearch(testString);
-    t = process.hrtime(t);
-    console.log('%d binarySearch %d', v, t[0] * 1e9 + t[1]);
-  }
-
-  for (i=0;i<10;i++) {
-    t = process.hrtime();
-    withSearch(testString);
-    t = process.hrtime(t);
-    console.log('%d search       %d', v, t[0] * 1e9 + t[1]);
-  }
-
-});
-
 
 //var testString = "The quick brown fox jumps over the lazy dog";
 
-function withIf (s) {
+var withIf = function (s) {
   var vowels = 0;
   for (var i=0; i < s.length-1; i++){
     if (s[i] === "a" || s[i] === "e" || s[i] === "i" || s[i] === "o" || s[i] === "u" ){
@@ -47,9 +12,9 @@ function withIf (s) {
     }
   }
   return vowels;
-}
+};
 
-function withIndexOf (s) {
+var withIndex = function (s) {
   var vowels = 0;
   var vowelArray = ["a","e","i","o","u"];
   for (var i = 0; i < s.length-1; i++){
@@ -58,9 +23,9 @@ function withIndexOf (s) {
     }
   }
   return vowels;
-}
+};
 
-function withBinarySearch (s) {
+var withBinarySearch = function (s) {
   var vowels = 0;
   var vowelArray = ["a","e","i","o","u"]; //already sorted
   for (var i = 0; i < s.length-1; i++){
@@ -69,9 +34,9 @@ function withBinarySearch (s) {
     }
   }
   return vowels;
-}
+};
 
-function withSearch (s) {
+var withStringSearch = function (s) {
   var vowels = 0;
   var vowelString = "aeiou"; //already sorted
   for (var i = 0; i < s.length-1; i++){
@@ -80,7 +45,9 @@ function withSearch (s) {
     }
   }
   return vowels;
-}
+};
+
+/*Utility functions*/
 
 function binarySearch (a,value,lo,hi) {
   if (lo>hi) {
@@ -98,3 +65,33 @@ function binarySearch (a,value,lo,hi) {
   }
   else return null;
 }
+
+/* Tests */
+
+
+fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
+  if (err) {
+    return console.log(err);
+  }
+  var time;
+
+  var tests = {
+    withIf: withIf,
+    withIndex: withIndex,
+    withBinarySearch: withBinarySearch,
+    withStringSearch: withStringSearch
+  };
+
+  for (var test in tests) {
+    if (tests.hasOwnProperty(test)) {
+      var testMethod = tests[test];
+      for (var i=0;i<10;i++) {
+        time = process.hrtime();
+        var value = testMethod(testString);
+        time = process.hrtime(time);
+        console.log('%s\t%d\t%d', test, value, time[0] * 1e9 + time[1]);
+      }
+
+    }
+  }
+});
