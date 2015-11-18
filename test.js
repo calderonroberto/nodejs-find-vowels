@@ -27,6 +27,13 @@ fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
     console.log('%d binarySearch %d', v, t[0] * 1e9 + t[1]);
   }
 
+  for (i=0;i<10;i++) {
+    t = process.hrtime();
+    withSearch(testString);
+    t = process.hrtime(t);
+    console.log('%d search       %d', v, t[0] * 1e9 + t[1]);
+  }
+
 });
 
 
@@ -64,6 +71,17 @@ function withBinarySearch (s) {
   return vowels;
 }
 
+function withSearch (s) {
+  var vowels = 0;
+  var vowelString = "aeiou"; //already sorted
+  for (var i = 0; i < s.length-1; i++){
+    if ( vowelString.search(s[i] != -1) ){
+      vowels++;
+    }
+  }
+  return vowels;
+}
+
 function binarySearch (a,value,lo,hi) {
   if (lo>hi) {
     return null;
@@ -75,7 +93,7 @@ function binarySearch (a,value,lo,hi) {
   else if (value > a[mid]) {
     return binarySearch(a,value,mid+1,hi);
   }
-  else if (value === a[mid]) {
+  else if (value == a[mid]) {
     return mid;
   }
   else return null;
