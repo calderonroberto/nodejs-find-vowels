@@ -32,20 +32,8 @@ var withBinarySearch = function (s) {
   var vowels = 0;
   var vowelArray = ["a","e","i","o","u"]; //already sorted
   for (var i = 0; i < s.length-1; i++){
-    var search = binarySearch(vowelArray,s[i].toLowerCase(),0,4); //handler for async
+    var search = binarySearch(vowelArray,s[i].toLowerCase(),0,4);
     if ( search !== -1 ){
-      vowels++;
-    }
-  }
-  return vowels;
-};
-
-var withRegExp = function (s) {
-  var vowels = 0;
-  for (var i = 0; i < s.length-1; i++){
-    var vowelsExp = /[aeiou]/;
-    var letter = s[i].toLowerCase();
-    if ( letter.search(vowelsExp) !== -1 ){
       vowels++;
     }
   }
@@ -88,8 +76,7 @@ fs.readFile('the_time_machine.txt', 'utf8', function (err,testString) {
   var tests = {
     withIf: withIf,
     withIndex: withIndex,
-    withBinarySearch: withBinarySearch,
-    withRegExp: withRegExp
+    withBinarySearch: withBinarySearch
   };
 
   for (var test in tests) {
