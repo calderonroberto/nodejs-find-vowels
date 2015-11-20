@@ -1,12 +1,10 @@
 "use scrict";
 
-fs = require('fs')
+fs = require('fs');
 
 /*
 * The tests
 */
-
-//TODO: lowercaps!
 
 var withIf = function (s) {
   var vowels = 0;
@@ -44,13 +42,8 @@ var withBinarySearch = function (s) {
 
 var withRegExp = function (s) {
   var vowels = 0;
-  //var vowelString = "aeiou"; //already sorted
   for (var i = 0; i < s.length-1; i++){
-//console.log(typeof(s[i]))
-//console.log(s[i])
-
     var vowelsExp = /[aeiou]/;
-//console.log(s[i].search(vowelsExp));
     var letter = s[i].toLowerCase();
     if ( letter.search(vowelsExp) !== -1 ){
       vowels++;
@@ -110,7 +103,5 @@ fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
 
     }
   }
-
-
 
 });
