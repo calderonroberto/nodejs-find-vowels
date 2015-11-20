@@ -2,7 +2,11 @@
 
 fs = require('fs')
 
-//var testString = "The quick brown fox jumps over the lazy dog";
+/*
+* The tests
+*/
+
+//TODO: lowercaps!
 
 var withIf = function (s) {
   var vowels = 0;
@@ -29,7 +33,8 @@ var withBinarySearch = function (s) {
   var vowels = 0;
   var vowelArray = ["a","e","i","o","u"]; //already sorted
   for (var i = 0; i < s.length-1; i++){
-    if ( binarySearch(vowelArray,s[i],0,5) ){
+    var search = binarySearch(vowelArray,s[i],0,4); //handler for async
+    if ( search !== -1 ){
       vowels++;
     }
   }
@@ -40,34 +45,36 @@ var withStringSearch = function (s) {
   var vowels = 0;
   var vowelString = "aeiou"; //already sorted
   for (var i = 0; i < s.length-1; i++){
-    if ( vowelString.search(s[i] != -1) ){
+    if ( vowelString.search(s[i]) != -1 ){
       vowels++;
     }
   }
   return vowels;
 };
 
-/*Utility functions*/
+/*
+* Utility functions
+*/
 
 function binarySearch (a,value,lo,hi) {
   if (lo>hi) {
-    return null;
+    return -1;
   }
-  var mid = Math.floor((lo+hi)/2);
+  var mid = Math.round((lo+hi)/2);
   if (value < a[mid]) {
     return binarySearch(a,value,lo,mid-1);
   }
   else if (value > a[mid]) {
     return binarySearch(a,value,mid+1,hi);
   }
-  else if (value == a[mid]) {
+  else if (value === a[mid]) {
     return mid;
   }
-  else return null;
 }
 
-/* Tests */
-
+/*
+* Load the text and run the Tests
+*/
 
 fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
   if (err) {
@@ -75,11 +82,13 @@ fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
   }
   var time;
 
+  //testString = "The quick brown fox jumps over the lazy dog";
+
   var tests = {
     withIf: withIf,
     withIndex: withIndex,
     withBinarySearch: withBinarySearch,
-    withStringSearch: withStringSearch
+    //withStringSearch: withStringSearch
   };
 
   for (var test in tests) {
@@ -94,4 +103,7 @@ fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
 
     }
   }
+
+
+
 });
