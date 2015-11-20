@@ -11,7 +11,8 @@ fs = require('fs')
 var withIf = function (s) {
   var vowels = 0;
   for (var i=0; i < s.length-1; i++){
-    if (s[i] === "a" || s[i] === "e" || s[i] === "i" || s[i] === "o" || s[i] === "u" ){
+    var letter = s[i].toLowerCase();
+    if (letter === "a" || letter === "e" || letter === "i" || letter === "o" || letter === "u" ){
       vowels++;
     }
   }
@@ -22,7 +23,7 @@ var withIndex = function (s) {
   var vowels = 0;
   var vowelArray = ["a","e","i","o","u"];
   for (var i = 0; i < s.length-1; i++){
-    if (vowelArray.indexOf(s[i]) !== -1 ) {
+    if (vowelArray.indexOf(s[i].toLowerCase()) !== -1 ) {
       vowels++;
     }
   }
@@ -33,7 +34,7 @@ var withBinarySearch = function (s) {
   var vowels = 0;
   var vowelArray = ["a","e","i","o","u"]; //already sorted
   for (var i = 0; i < s.length-1; i++){
-    var search = binarySearch(vowelArray,s[i],0,4); //handler for async
+    var search = binarySearch(vowelArray,s[i].toLowerCase(),0,4); //handler for async
     if ( search !== -1 ){
       vowels++;
     }
@@ -41,11 +42,17 @@ var withBinarySearch = function (s) {
   return vowels;
 };
 
-var withStringSearch = function (s) {
+var withRegExp = function (s) {
   var vowels = 0;
-  var vowelString = "aeiou"; //already sorted
+  //var vowelString = "aeiou"; //already sorted
   for (var i = 0; i < s.length-1; i++){
-    if ( vowelString.search(s[i]) != -1 ){
+//console.log(typeof(s[i]))
+//console.log(s[i])
+
+    var vowelsExp = /[aeiou]/;
+//console.log(s[i].search(vowelsExp));
+    var letter = s[i].toLowerCase();
+    if ( letter.search(vowelsExp) !== -1 ){
       vowels++;
     }
   }
@@ -88,7 +95,7 @@ fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
     withIf: withIf,
     withIndex: withIndex,
     withBinarySearch: withBinarySearch,
-    //withStringSearch: withStringSearch
+    withRegExp: withRegExp
   };
 
   for (var test in tests) {
