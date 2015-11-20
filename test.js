@@ -76,13 +76,14 @@ function binarySearch (a,value,lo,hi) {
 * Load the text and run the Tests
 */
 
-fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
+fs.readFile('the_time_machine.txt', 'utf8', function (err,testString) {
   if (err) {
     return console.log(err);
   }
   var time;
 
-  //testString = "The quick brown fox jumps over the lazy dog";
+  testString = "In the beginning was the Word. Then came the fucking word processor. \
+  Then came the thought processor. Then came the death of literature. And so it goes.";
 
   var tests = {
     withIf: withIf,
@@ -98,9 +99,8 @@ fs.readFile('ulysses.txt', 'utf8', function (err,testString) {
         time = process.hrtime();
         var value = testMethod(testString);
         time = process.hrtime(time);
-        console.log('%s\t%d\t%d', test, value, time[0] * 1e9 + time[1]);
+        console.log('%s\t%d\t%d\t%d', test, value, testString.length, time[0] * 1e9 + time[1]);
       }
-
     }
   }
 
